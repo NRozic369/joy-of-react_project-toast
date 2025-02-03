@@ -10,17 +10,16 @@ import ToastShelf from '../ToastShelf/ToastShelf';
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
-  const [message, setMessage] = React.useState();
-  const [variant, setVariant] = React.useState('notice');
+  const [message, setMessage] = React.useState('');
+  const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
 
-  const { toasts } = React.useContext(ToastContext);
-  const { handleAddToast } = React.useContext(ToastContext);
+  const { toasts, handleAddToast } = React.useContext(ToastContext);
 
   function handleSubmit(event) {
     event.preventDefault();
     handleAddToast(message, variant);
     setMessage('');
-    setVariant('notice');
+    setVariant(VARIANT_OPTIONS[0]);
   }
 
   return (
@@ -30,7 +29,7 @@ function ToastPlayground() {
           <img alt="Cute toast mascot" src="/toast.png" />
           <h1>Toast Playground</h1>
         </header>
-        {toasts.length > 0 && <ToastShelf toasts={toasts} />}
+        {toasts.length > 0 && <ToastShelf />}
         <div className={styles.controlsWrapper}>
           <div className={styles.row}>
             <label
@@ -55,22 +54,24 @@ function ToastPlayground() {
           <div className={styles.row}>
             <div className={styles.label}>Variant</div>
             <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
-              {VARIANT_OPTIONS.map((type, index) => (
-                <label htmlFor={index} key={index}>
-                  <input
-                    key={index}
-                    id={index}
-                    type="radio"
-                    name="variant"
-                    value={type}
-                    checked={variant === type}
-                    onChange={(event) => {
-                      setVariant(event.target.value);
-                    }}
-                  />
-                  {type}
-                </label>
-              ))}
+              {VARIANT_OPTIONS.map((type) => {
+                const id = `variant-${type}`;
+                return (
+                  <label key={id} htmlFor={id}>
+                    <input
+                      id={id}
+                      type="radio"
+                      name="variant"
+                      value={type}
+                      checked={variant === type}
+                      onChange={(event) => {
+                        setVariant(event.target.value);
+                      }}
+                    />
+                    {type}
+                  </label>
+                );
+              })}
             </div>
           </div>
 

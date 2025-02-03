@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEscapeKey } from '../../hooks/useEscapeKey';
+import { useEscapeKey } from '../../hooks/UseEscapeKey';
 
 export const ToastContext = React.createContext();
 
